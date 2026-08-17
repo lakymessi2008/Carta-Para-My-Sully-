@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta a Sully</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #5079da;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 0;
+      text-align: center;
+      color: #333;
+      transition: background-color 0.5s ease;
+      overflow-x: hidden;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .screen {
+      display: none;
+      animation: fadeIn 0.8s ease;
+      width: 100%;
+      max-width: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+    }
+    .screen.active {
+      display: flex;
+    }
+    .main-img {
+      width: 280px;
+      height: auto;
+      margin-bottom: 15px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      border: none;
+      box-shadow: none;
+    }
+    .main-img:hover {
+      transform: scale(1.05);
+    }
+
+    .card {
+      background: repeating-linear-gradient(
+        white,
+        white 28px,
+        #e3e3e3 29px
+      );
+      width: 700px;
+      max-width: 94vw;
+      min-height: auto;
+      padding: 40px 60px;
+      margin: 0 auto 40px auto;
+      border: 2px solid #e5e5e5;
+      border-radius: 0;
+      box-sizing: border-box;
+      text-align: left;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease;
+    }
+
+    .card h3 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2em;
+      text-align: left;
+      margin-bottom: 20px;
+      margin-left: 10px;
+      color: #444;
+    }
+    .card p {
+      font-family: "Poppins", sans-serif;
+      font-size: 1.1em;
+      line-height: 1.8;
+      text-align: justify;
+      color: #444;
+      margin: 12px 0;
+    }
+    .return-btn {
+      margin-top: 25px;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+      background-color: #0f0e0e;
+      color: white;
+    }
+    .return-btn:hover {
+      background-color: #ff2a66;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
+    /* --- Pantalla final: corazones flotando --- */
+    body.hearts-mode {
+      background-color: #4f77d5;
+    }
+    #screenHearts {
+      min-height: 80vh;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      color: rgb(56, 145, 204);
+      font-size: 20px;
+      animation: float 6s linear forwards;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+    #screenHearts h2 {
+      color: white;
+      position: relative;
+      z-index: 2;
+      min-height: 1.5em;
+      transition: opacity 0.5s ease;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        width: 95%;
+        min-height: auto;
+        padding: 25px 18px;
+        margin: 0 auto 25px auto;
+      }
+      .card h3 {
+        font-size: 1.6em;
+        text-align: center;
+        margin-left: 0;
+      }
+      .card p {
+        font-size: 0.95em;
+        line-height: 1.7;
+        text-align: left;
+      }
+      h2 {
+        font-size: 1.2em;
+      }
+      .main-img {
+        width: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <audio id="musica" loop>
+    <source src="Conmigo no lloras.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="screen active" id="screen1">
+    <h2>Holaaa, My Sully</h2>
+    <img src="492649951487179.jpeg" alt="Correo" class="main-img" onclick="nextScreen(2)">
+  </div>
+
+  <div class="screen" id="screen2">
+    <h2>Te Llego Una cartita para ti</h2>
+    <img src="25162c08-8e31-435b-a8ab-3a9acec28e90.jpeg" alt="Carta" class="main-img" onclick="nextScreen(3)">
+  </div>
+
+  <div class="screen" id="screen3">
+    <h2>¡Ábrelo!</h2>
+    <img src="https://i.pinimg.com/736x/0b/97/89/0b978918f0efa0174a6e72d67f2c442a.jpg" alt="Sobre" class="main-img" onclick="nextScreen(4)">
+  </div>
+
+  <div class="screen" id="screen4">
+    <h2>Son Mis Ultimas Palabras</h2>
+    <img src="https://i.pinimg.com/736x/40/0d/cf/400dcf7b1230e9e6ca787fa30a66c924.jpg" alt="Carta lista" class="main-img" onclick="nextScreen(5)">
+  </div>
+
+  <div class="screen" id="screen5">
+    <div class="card">
+      <h3>Para Sully ❤️</h3>
+
+      <p>
+        Sí, ya entendí. 🥹 Quieres que sea como una celebración de todo lo bonito
+        que vivieron durante ese año, pero al mismo tiempo que tenga ese sentimiento
+        de "gracias por este capítulo, ahora toca despedirnos". No una carta de
+        disculpas como la anterior.
+      </p>
+
+      <p>
+        Hoy no quiero escribirte para hablar de lo malo, ni para recordar nuestras
+        discusiones, nuestros errores o todo aquello que alguna vez nos hizo daño.
+        Hoy quiero escribirte para celebrar algo que, a pesar de todo, siempre voy
+        a considerar especial: nuestro año juntos.
+      </p>
+
+      <p>
+        Un año de conocernos, de descubrirnos poco a poco, de compartir momentos
+        que quizá para otras personas no significarían mucho, pero que para mí
+        significaron muchísimo. Un año de amistad, de cariño, de romance, de risas,
+        de conversaciones interminables, de momentos bonitos y también de momentos
+        difíciles que, de una u otra manera, nos hicieron crecer.
+      </p>
+
+      <p>
+        Me quedo con la Sully que conocí, con aquella persona que logró hacerme
+        sentir cosas que nunca había sentido. Me quedo con nuestras conversaciones,
+        nuestras bromas, nuestras ocurrencias, nuestras pequeñas cosas y todos esos
+        recuerdos que hicieron que este año fuera diferente a cualquier otro.
+      </p>
+
+      <p>
+        Y aunque nuestra historia no terminó como alguna vez imaginamos, eso no
+        significa que haya sido un desperdicio.
+      </p>
+
+      <p>Al contrario.</p>
+
+      <p>Fue uno de los capítulos más importantes de mi vida.</p>
+
+      <p>
+        Durante este año aprendí lo que significa querer realmente a alguien,
+        aprendí que una relación no solamente está hecha de momentos perfectos,
+        sino también de aprender, equivocarse, perdonar, escuchar y crecer.
+        Quizá nosotros todavía no sabíamos hacer muchas de esas cosas, pero lo
+        intentamos. Y por eso también quiero agradecerte.
+      </p>
+
+      <p>
+        Gracias por haber sido mi amiga, mi compañera y, durante un tiempo, la
+        persona que ocupó un lugar enorme en mi corazón. Gracias por todas las
+        veces que estuviste ahí, por las risas, por las conversaciones, por los
+        momentos que me hiciste feliz y por permitirme formar parte de tu vida.
+      </p>
+
+      <p>
+        Si pudiera volver al inicio y vivir este año otra vez, sabiendo cómo
+        terminaría, probablemente aun así lo viviría.
+      </p>
+
+      <p>Porque conocerte valió la pena.</p>
+    </div>
+
+    <!-- 📄 HOJA 2 -->
+    <div class="card">
+      <p>
+        Hoy quiero despedirme sin borrar lo que fuimos. No quiero convertir este
+        año en algo triste solamente porque llegó a su final. Quiero recordarlo
+        como lo que fue: un año que tuvo momentos hermosos y que siempre tendrá
+        un lugar especial en mi memoria.
+      </p>
+
+      <p>
+        Tal vez nuestros caminos ahora tengan que separarse. Tal vez con el tiempo
+        seamos solamente un recuerdo el uno para el otro. Y aunque decirlo duele,
+        también entiendo que algunas personas llegan a nuestra vida para quedarse
+        y otras llegan para enseñarnos algo que llevaremos con nosotros.
+      </p>
+
+      <p>
+        Tú fuiste ambas cosas: alguien que quise muchísimo y alguien de quien
+        aprendí muchísimo.
+      </p>
+
+      <p>Así que no quiero terminar esta carta con un "adiós" lleno de tristeza.</p>
+
+      <p>Quiero terminarla diciendo:</p>
+
+      <p>Gracias por este año, Sully.</p>
+
+      <p>
+        Gracias por cada momento, por cada risa, por cada recuerdo y por haber
+        formado parte de una etapa tan importante de mi vida.
+      </p>
+
+      <p>
+        Ojalá algún día, cuando recuerdes este año, puedas hacerlo con una sonrisa
+        y no solamente con tristeza. Yo intentaré hacer lo mismo.
+      </p>
+
+      <p>
+        Espero que la vida te lleve a lugares bonitos, que cumplas cada uno de
+        tus sueños y que encuentres todo aquello que buscas.
+      </p>
+
+      <p>
+        Y si algún día miras hacia atrás y recuerdas a aquel chico con el que
+        compartiste un año de tu vida, espero que recuerdes que, aunque no fue
+        perfecto, te quiso de verdad y siempre estará agradecido por haberte
+        conocido.
+      </p>
+
+      <p>
+        Y siempre recordaré este día 23 de agosto como el día que conocí la
+        indicada, la chica de mi corazón, el amor de mi vida. Y así como llegó
+        el 23 de agosto, se va un 23 de agosto.
+      </p>
+
+      <p>Y gracias, Sully.</p>
+
+      <p>Por todo lo que fuimos.</p>
+
+      <p>Por todo lo que vivimos.</p>
+
+      <p>
+        Y espero logres tener una familia y 4 hijos con el hombre que quieras
+        y ames.
+      </p>
+
+      <p>
+        Y por ese pequeño pedazo de nuestras vidas que, aunque hoy termine,
+        siempre será nuestro. ❤️
+      </p>
+
+      <div style="text-align: center;">
+        <button class="return-btn" onclick="nextScreen('Hearts')">Te Amo Sully😞</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="screenHearts">
+    <h2 id="fraseDespedida"></h2>
+  </div>
+
+  <script>
+    let heartsInterval = null;
+
+    function crearCorazon() {
+      const corazon = document.createElement("div");
+      corazon.classList.add("heart");
+      corazon.innerHTML = "😞";
+      corazon.style.left = Math.random() * 100 + "vw";
+      corazon.style.fontSize = Math.random() * 20 + 15 + "px";
+      corazon.style.animationDuration = Math.random() * 3 + 4 + "s";
+      document.body.appendChild(corazon);
+      setTimeout(() => corazon.remove(), 6000);
+    }
+
+    function nextScreen(num) {
+      const current = document.querySelector(".screen.active");
+      if (current) current.classList.remove("active");
+
+      if (num === "Hearts") {
+        document.getElementById("screenHearts").classList.add("active");
+        document.body.classList.add("hearts-mode");
+        if (!heartsInterval) {
+          heartsInterval = setInterval(crearCorazon, 300);
+        }
+        if (!fraseInterval) {
+          mostrarFrases();
+          fraseInterval = setInterval(mostrarFrases, 3500);
+        }
+      } else {
+        document.body.classList.remove("hearts-mode");
+        if (heartsInterval) {
+          clearInterval(heartsInterval);
+          heartsInterval = null;
+        }
+        document.getElementById("screen" + num).classList.add("active");
+      }
+    }
+
+    const frases = [
+      "Gracias por todo, Sully",
+      "Un pedacito de ti se queda conmigo",
+      "Aunque duela, valió la pena",
+      "Te llevo conmigo, aunque no estés",
+      "No lloro porque termino, lloro porque sucedió",
+      "Nuestro año, guardado para siempre",
+      "23 de agosto, siempre nuestro 💗"
+    ];
+    let fraseIndex = 0;
+    let fraseInterval = null;
+
+    function mostrarFrases() {
+      const el = document.getElementById("fraseDespedida");
+      el.style.opacity = 0;
+      setTimeout(() => {
+        el.textContent = frases[fraseIndex];
+        el.style.opacity = 1;
+        fraseIndex = (fraseIndex + 1) % frases.length;
+      }, 500);
+    }
+
+    const audio = document.getElementById("musica");
+    document.body.addEventListener("click", () => {
+      audio.currentTime = 0;
+      audio.play();
+    }, { once: true });
+  </script>
+</body>
+</html>
